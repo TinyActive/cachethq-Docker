@@ -3,11 +3,10 @@ FROM nginx:1.17.8-alpine
 EXPOSE 8000
 CMD ["/sbin/entrypoint.sh"]
 
-ARG cachet_ver
+ENV cachet_ver v2.4.1
 ARG archive_url
-
-ENV cachet_ver ${cachet_ver:-2.4}
-ENV archive_url ${archive_url:-https://github.com/cachethq/Cachet/archive/${cachet_ver}.tar.gz}
+ENV cachet_ver ${cachet_ver:-v2.4.1}
+ENV archive_url ${archive_url:-https://github.com/cachethq/cachet/archive/refs/tags/${cachet_ver}.tar.gz}
 
 ENV COMPOSER_VERSION 1.9.0
 
@@ -62,7 +61,7 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
 
 RUN adduser -S -s /bin/bash -u 1001 -G root www-data
 
-RUN echo "www-data	ALL=(ALL:ALL)	NOPASSWD:SETENV:	/usr/sbin/postfix" >> /etc/sudoers
+RUN echo "www-data      ALL=(ALL:ALL)   NOPASSWD:SETENV:        /usr/sbin/postfix" >> /etc/sudoers
 
 RUN touch /var/run/nginx.pid && \
     chown -R www-data:root /var/run/nginx.pid
